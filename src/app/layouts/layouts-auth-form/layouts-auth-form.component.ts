@@ -1,9 +1,11 @@
 import { Component, Input } from '@angular/core';
 
+import { MatFormFieldModule } from '@angular/material/form-field';
+
 @Component({
   selector: 'app-layouts-auth-form',
   standalone: true,
-  imports: [],
+  imports: [MatFormFieldModule],
   templateUrl: './layouts-auth-form.component.html',
   styleUrl: './layouts-auth-form.component.css',
 })
