@@ -1,0 +1,13 @@
+<div class="flex items-center justify-center bg-gray-300 h-screen">
+  <div
+    class="text-center bg-[#e8f5e9] w-full lg:w-1/3 p-8 rounded-xl py-10 mx-10"
+  >
+    <span class="text-5xl text-blue-700">{{ title }}</span>
+    <form class="flex flex-col items-center mt-8">
+      <ng-content />
+      <div class="w-full flex gap-4">
+        <ng-content select="form-buttons"></ng-content>
+      </div>
+    </form>
+  </div>
+</div>
