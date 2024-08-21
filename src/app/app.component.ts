@@ -7,7 +7,7 @@ import { SigninComponent } from './views/signin/signin.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, SignupComponent, SigninComponent],
+  imports: [RouterOutlet, SignupComponent, SigninComponent, RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
