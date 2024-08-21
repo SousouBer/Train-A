@@ -1,0 +1,14 @@
+<mat-form-field class="w-full">
+  <mat-label>{{ label() }}</mat-label>
+  <input
+    matNativeControl
+    [type]="type()"
+    [name]="name()"
+    [placeholder]="placeholder()"
+  />
+  @if (isPassword()) {
+  <mat-icon (click)="togglePasswordInput()" class="cursor-pointer" matSuffix>{{
+    showPasswordInput() ? "visibility" : "visibility_off"
+  }}</mat-icon>
+  }
+</mat-form-field>
