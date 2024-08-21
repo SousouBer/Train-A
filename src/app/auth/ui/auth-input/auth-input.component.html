@@ -5,6 +5,8 @@
     [type]="type()"
     [name]="name()"
     [placeholder]="placeholder()"
+    [disabled]="disabled"
+    (input)="onInputChange($event)"
   />
   @if (isPassword()) {
   <mat-icon (click)="togglePasswordInput()" class="cursor-pointer" matSuffix>{{

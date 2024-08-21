@@ -1,41 +1,52 @@
 <app-layouts-auth-form title="Sign up">
-  <app-auth-input
-    class="w-full"
-    label="Username"
-    inputType="text"
-    name="username"
-    placeholder="Type your username"
-  />
-  <app-auth-input
-    class="w-full"
-    [isPassword]="true"
-    label="Password"
-    inputType="password"
-    name="password"
-    placeholder="Enter a password"
-  />
-  <app-auth-input
-    class="w-full"
-    [isPassword]="true"
-    label="Repeat a password"
-    inputType="password"
-    name="password-confirmation"
-    placeholder="Confirm a password"
-  />
-  <button
-    ngProjectAs="form-buttons"
-    mat-flat-button
-    type="submit"
-    class="w-1/4"
+  <form
+    [formGroup]="signupForm"
+    (ngSubmit)="onSubmit()"
+    class="flex flex-col items-center mt-8"
   >
-    Register
-  </button>
-  <button
-    routerLink="/signin"
-    ngProjectAs="form-buttons"
-    mat-stroked-button
-    type="button"
-  >
-    Sign in
-  </button>
+    <app-auth-input
+      formControlName="email"
+      class="w-full"
+      label="Email"
+      inputType="email"
+      name="email"
+      placeholder="Type an email"
+    />
+    <app-auth-input
+      formControlName="password"
+      class="w-full"
+      [isPassword]="true"
+      label="Password"
+      inputType="password"
+      name="password"
+      placeholder="Enter a password"
+    />
+    <app-auth-input
+      formControlName="password_confirmation"
+      class="w-full"
+      [isPassword]="true"
+      label="Repeat a password"
+      inputType="password"
+      name="password_confirmation"
+      placeholder="Confirm a password"
+    />
+    <div class="w-full flex gap-4">
+      <button
+        ngProjectAs="form-buttons"
+        mat-flat-button
+        type="submit"
+        class="w-1/4"
+      >
+        Register
+      </button>
+      <button
+        routerLink="/signin"
+        ngProjectAs="form-buttons"
+        mat-stroked-button
+        type="button"
+      >
+        Sign in
+      </button>
+    </div>
+  </form>
 </app-layouts-auth-form>
