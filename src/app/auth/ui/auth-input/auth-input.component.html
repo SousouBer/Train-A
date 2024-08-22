@@ -1,5 +1,5 @@
 <div>
-  <mat-form-field class="w-full">
+  <mat-form-field class="w-full mt-2">
     <mat-label>{{ label() }}</mat-label>
     <input
       matNativeControl
@@ -20,11 +20,14 @@
   </mat-form-field>
 
   @if (formControl?.invalid && (formControl?.dirty || formControl?.touched) ) {
-  @if (formControl?.hasError('required')) {
-  <div>This field is required</div>
-  } @if (formControl?.hasError('email')) {
-  <div>This field has to be a valid email address</div>
-  } @if (formControl?.hasError('minlength')) {
-  <div>Password must be at least 8 characters long</div>
-  } }
+  <div class="flex items-start">
+    @if (formControl?.hasError('required')) {
+    <div>This field is required</div>
+    } @if (formControl?.hasError('email')) {
+    <div>This field has to be a valid email address</div>
+    } @if (formControl?.hasError('minlength')) {
+    <div>Password must be at least 8 characters long</div>
+    }
+  </div>
+  }
 </div>

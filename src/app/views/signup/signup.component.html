@@ -2,7 +2,7 @@
   <form
     [formGroup]="signupForm"
     (ngSubmit)="onSubmit()"
-    class="flex flex-col items-center mt-8"
+    class="flex flex-col mt-8"
   >
     <app-auth-input
       formControlName="email"
@@ -23,9 +23,6 @@
       placeholder="Enter a password"
       [form]="signupForm"
     />
-    @if (signupForm.get('password')?.hasError('minLength')) {
-    <p>Heere!</p>
-    }
     <app-auth-input
       formControlName="password_confirmation"
       class="w-full"
@@ -36,6 +33,9 @@
       placeholder="Confirm a password"
       [form]="signupForm"
     />
+    @if (signupForm.hasError('passwordsMismatch')) {
+    <p class="self-start">Passwords do not match</p>
+    }
     <div class="w-full flex gap-4">
       <button
         [disabled]="signupForm.invalid"
