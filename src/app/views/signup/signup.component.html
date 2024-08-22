@@ -33,23 +33,20 @@
       placeholder="Confirm a password"
       [form]="signupForm"
     />
-    @if (signupForm.hasError('passwordsMismatch')) {
-    <p class="self-start">Passwords do not match</p>
-    }
     <div class="w-full flex gap-4">
       <button
+        mat-flat-button
         [disabled]="signupForm.invalid"
         ngProjectAs="form-buttons"
-        mat-flat-button
         type="submit"
         class="w-1/4"
       >
         Register
       </button>
       <button
+        mat-stroked-button
         routerLink="/signin"
         ngProjectAs="form-buttons"
-        mat-stroked-button
         type="button"
       >
         Sign in

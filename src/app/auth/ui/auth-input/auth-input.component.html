@@ -1,33 +1,30 @@
-<div>
-  <mat-form-field class="w-full mt-2">
-    <mat-label>{{ label() }}</mat-label>
-    <input
-      matNativeControl
-      [type]="type()"
-      [name]="name()"
-      [placeholder]="placeholder()"
-      [disabled]="disabled"
-      (input)="onInputChange($event)"
-    />
-    @if (isPassword()) {
-    <mat-icon
-      (click)="togglePasswordInput()"
-      class="cursor-pointer"
-      matSuffix
-      >{{ showPasswordInput() ? "visibility" : "visibility_off" }}</mat-icon
-    >
-    }
-  </mat-form-field>
-
-  @if (formControl?.invalid && (formControl?.dirty || formControl?.touched) ) {
+<mat-form-field class="w-full">
+  <mat-label>{{ label() }}</mat-label>
+  <input
+    matInput
+    [type]="type()"
+    [name]="name()"
+    [placeholder]="placeholder()"
+    [disabled]="disabled"
+    (input)="onInputChange($event)"
+  />
+  @if (isPassword()) {
+  <mat-icon matSuffix (click)="togglePasswordInput()" class="cursor-pointer">{{
+    showPasswordInput() ? "visibility" : "visibility_off"
+  }}</mat-icon>
+  } @if (formControl?.invalid && (formControl?.dirty || formControl?.touched) )
+  {
   <div class="flex items-start">
     @if (formControl?.hasError('required')) {
-    <div>This field is required</div>
+    <mat-error>This field is required</mat-error>
     } @if (formControl?.hasError('email')) {
-    <div>This field has to be a valid email address</div>
+    <mat-error>This field has to be a valid email address</mat-error>
     } @if (formControl?.hasError('minlength')) {
-    <div>Password must be at least 8 characters long</div>
+    <mat-error>Password must be at least 8 characters long</mat-error>
     }
   </div>
+  } @if (form().hasError('passwordsMismatch') && name() ===
+  'password_confirmation') {
+  <span class="text-red-800">Passwords do not match</span>
   }
-</div>
+</mat-form-field>

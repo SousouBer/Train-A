@@ -11,6 +11,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 
 function passwordsMatch(
   control: AbstractControl
@@ -34,6 +35,7 @@ function passwordsMatch(
     MatButtonModule,
     RouterLink,
     ReactiveFormsModule,
+    MatInputModule,
   ],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css',
