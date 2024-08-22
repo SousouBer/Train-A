@@ -4,7 +4,12 @@ import { AuthInputComponent } from '../../auth/ui/auth-input/auth-input.componen
 import { LayoutsAuthFormComponent } from '../../layouts/layouts-auth-form/layouts-auth-form.component';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-signup',
@@ -21,9 +26,15 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 })
 export class SignupComponent {
   signupForm = new FormGroup({
-    email: new FormControl(''),
-    password: new FormControl(''),
-    password_confirmation: new FormControl(''),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8),
+    ]),
+    password_confirmation: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8),
+    ]),
   });
 
   onSubmit() {

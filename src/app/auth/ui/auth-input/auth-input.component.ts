@@ -1,14 +1,6 @@
+import { Component, computed, input, signal } from '@angular/core';
 import {
-  Component,
-  computed,
-  inject,
-  input,
-  OnInit,
-  signal,
-  SkipSelf,
-} from '@angular/core';
-import {
-  ControlContainer,
+  AbstractControl,
   ControlValueAccessor,
   FormControl,
   FormGroup,
@@ -16,6 +8,7 @@ import {
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
 } from '@angular/forms';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
@@ -40,6 +33,8 @@ export class AuthInputComponent implements ControlValueAccessor {
   inputType = input.required<string>();
   isPassword = input<boolean>(false);
 
+  form = input.required<FormGroup>();
+
   value = '';
 
   onChange = (value: any) => {};
@@ -57,6 +52,10 @@ export class AuthInputComponent implements ControlValueAccessor {
         : 'password'
       : this.inputType();
   });
+
+  get formControl() {
+    return this.form().get(this.name());
+  }
 
   togglePasswordInput() {
     this.showPasswordInput.set(!this.showPasswordInput());

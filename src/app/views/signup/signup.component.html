@@ -11,6 +11,7 @@
       inputType="email"
       name="email"
       placeholder="Type an email"
+      [form]="signupForm"
     />
     <app-auth-input
       formControlName="password"
@@ -20,7 +21,11 @@
       inputType="password"
       name="password"
       placeholder="Enter a password"
+      [form]="signupForm"
     />
+    @if (signupForm.get('password')?.hasError('minLength')) {
+    <p>Heere!</p>
+    }
     <app-auth-input
       formControlName="password_confirmation"
       class="w-full"
@@ -29,9 +34,11 @@
       inputType="password"
       name="password_confirmation"
       placeholder="Confirm a password"
+      [form]="signupForm"
     />
     <div class="w-full flex gap-4">
       <button
+        [disabled]="signupForm.invalid"
         ngProjectAs="form-buttons"
         mat-flat-button
         type="submit"
