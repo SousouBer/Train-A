@@ -1,14 +1,30 @@
 <mat-form-field class="w-full">
   <mat-label>{{ label() }}</mat-label>
   <input
-    matNativeControl
+    matInput
     [type]="type()"
     [name]="name()"
     [placeholder]="placeholder()"
+    [disabled]="disabled"
+    (input)="onInputChange($event)"
   />
   @if (isPassword()) {
-  <mat-icon (click)="togglePasswordInput()" class="cursor-pointer" matSuffix>{{
+  <mat-icon matSuffix (click)="togglePasswordInput()" class="cursor-pointer">{{
     showPasswordInput() ? "visibility" : "visibility_off"
   }}</mat-icon>
+  } @if (formControl?.invalid && (formControl?.dirty || formControl?.touched) )
+  {
+  <div class="flex items-start">
+    @if (formControl?.hasError('required')) {
+    <mat-error>This field is required</mat-error>
+    } @if (formControl?.hasError('email')) {
+    <mat-error>This field has to be a valid email address</mat-error>
+    } @if (formControl?.hasError('minlength')) {
+    <mat-error>Password must be at least 8 characters long</mat-error>
+    }
+  </div>
+  } @if (form().hasError('passwordsMismatch') && name() ===
+  'password_confirmation') {
+  <span class="text-red-800">Passwords do not match</span>
   }
 </mat-form-field>
