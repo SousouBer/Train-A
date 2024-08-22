@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AuthInputComponent } from '../../auth/ui/auth-input/auth-input.component';
 import { LayoutsAuthFormComponent } from '../../layouts/layouts-auth-form/layouts-auth-form.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,6 +9,10 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+
+import { AuthService } from '../../services/auth.service';
+
+import SigninData from '../../models/models';
 
 @Component({
   selector: 'app-signin',
@@ -24,12 +28,18 @@ import {
   styleUrl: './signin.component.css',
 })
 export class SigninComponent {
+  private authService = inject(AuthService);
+
   signinForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
   });
 
   onSubmit() {
-    console.log(this.signinForm.value);
+    const credentials = this.signinForm.value;
+
+    this.authService.signin(credentials as SigninData).subscribe((val) => {
+      console.log(val);
+    });
   }
 }

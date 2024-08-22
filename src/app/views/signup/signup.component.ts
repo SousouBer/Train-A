@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { AuthInputComponent } from '../../auth/ui/auth-input/auth-input.component';
 import { LayoutsAuthFormComponent } from '../../layouts/layouts-auth-form/layouts-auth-form.component';
@@ -12,6 +12,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+
+import SignupData from '../../models/models';
+import { AuthService } from '../../services/auth.service';
 
 function passwordsMatch(
   control: AbstractControl
@@ -41,6 +44,8 @@ function passwordsMatch(
   styleUrl: './signup.component.css',
 })
 export class SignupComponent {
+  private authService = inject(AuthService);
+
   signupForm = new FormGroup(
     {
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -59,6 +64,10 @@ export class SignupComponent {
   );
 
   onSubmit() {
-    console.log(this.signupForm.value);
+    const credentials = this.signupForm.value;
+
+    this.authService.signup(credentials as SignupData).subscribe((val) => {
+      console.log(val);
+    });
   }
 }
