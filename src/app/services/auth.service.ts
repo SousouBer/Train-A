@@ -15,6 +15,6 @@ export class AuthService {
   }
 
   signin(credentials: SigninData) {
-    return this.http.post('/api/signin', credentials);
+    return this.http.post<{ token: string }>('/api/signin', credentials);
   }
 }
