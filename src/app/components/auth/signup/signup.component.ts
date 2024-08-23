@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 
-import { AuthInputComponent } from '../../auth/ui/auth-input/auth-input.component';
+import { AuthInputComponent } from '../../shared/ui/auth-input/auth-input.component';
 import { LayoutsAuthFormComponent } from '../../layouts/layouts-auth-form/layouts-auth-form.component';
 import { MatButtonModule } from '@angular/material/button';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import {
   AbstractControl,
   FormControl,
@@ -12,6 +12,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+
+import SignupData from '../../../models/models';
+import { AuthService } from '../../../services/auth.service';
+import {
+  HttpErrorResponse,
+  HttpEvent,
+  HttpResponse,
+} from '@angular/common/http';
 
 function passwordsMatch(
   control: AbstractControl
@@ -41,6 +49,10 @@ function passwordsMatch(
   styleUrl: './signup.component.css',
 })
 export class SignupComponent {
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  private destroyRef = inject(DestroyRef);
+
   signupForm = new FormGroup(
     {
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -59,6 +71,21 @@ export class SignupComponent {
   );
 
   onSubmit() {
-    console.log(this.signupForm.value);
+    const credentials = this.signupForm.value;
+
+    const subscription = this.authService
+      .signup(credentials as SignupData)
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/signin']);
+        },
+        error: (error: HttpErrorResponse) => {
+          if (error.status === 400) {
+            this.signupForm.get('email')?.setErrors({ emailIsTaken: true });
+          }
+        },
+      });
+
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 }

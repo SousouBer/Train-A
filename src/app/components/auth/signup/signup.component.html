@@ -1,0 +1,59 @@
+<app-layouts-auth-form
+  heading="Create an account"
+  description="Start your journey!"
+>
+  <form
+    [formGroup]="signupForm"
+    (ngSubmit)="onSubmit()"
+    class="flex flex-col mt-8"
+  >
+    <app-auth-input
+      formControlName="email"
+      class="w-full"
+      label="Email"
+      inputType="email"
+      name="email"
+      placeholder="Type an email"
+      [form]="signupForm"
+    />
+    <app-auth-input
+      formControlName="password"
+      class="w-full"
+      [isPassword]="true"
+      label="Password"
+      inputType="password"
+      name="password"
+      placeholder="Enter a password"
+      [form]="signupForm"
+    />
+    <app-auth-input
+      formControlName="password_confirmation"
+      class="w-full"
+      [isPassword]="true"
+      label="Repeat a password"
+      inputType="password"
+      name="password_confirmation"
+      placeholder="Confirm a password"
+      [form]="signupForm"
+    />
+    <div class="w-full flex gap-4">
+      <button
+        mat-flat-button
+        [disabled]="signupForm.invalid"
+        ngProjectAs="form-buttons"
+        type="submit"
+        class="w-1/4"
+      >
+        Register
+      </button>
+      <button
+        mat-stroked-button
+        routerLink="/signin"
+        ngProjectAs="form-buttons"
+        type="button"
+      >
+        Sign in
+      </button>
+    </div>
+  </form>
+</app-layouts-auth-form>

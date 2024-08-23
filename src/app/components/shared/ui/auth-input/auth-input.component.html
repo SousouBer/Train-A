@@ -21,6 +21,10 @@
     <mat-error>This field has to be a valid email address</mat-error>
     } @if (formControl?.hasError('minlength')) {
     <mat-error>Password must be at least 8 characters long</mat-error>
+    } @if (formControl?.hasError('emailIsTaken')) {
+    <mat-error>Account with this email already exists</mat-error>
+    } @if (formControl?.hasError('incorrectCredentials')) {
+    <mat-error>Incorrect email or password</mat-error>
     }
   </div>
   } @if (form().hasError('passwordsMismatch') && name() ===

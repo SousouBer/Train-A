@@ -1,6 +1,9 @@
-<app-layouts-auth-form title="Sign up">
+<app-layouts-auth-form
+  heading="Log in to your account"
+  description="Welcome back! Please, enter your details."
+>
   <form
-    [formGroup]="signupForm"
+    [formGroup]="signinForm"
     (ngSubmit)="onSubmit()"
     class="flex flex-col mt-8"
   >
@@ -10,46 +13,35 @@
       label="Email"
       inputType="email"
       name="email"
-      placeholder="Type an email"
-      [form]="signupForm"
+      placeholder="Enter your email"
+      [form]="signinForm"
     />
     <app-auth-input
       formControlName="password"
       class="w-full"
-      [isPassword]="true"
       label="Password"
       inputType="password"
       name="password"
-      placeholder="Enter a password"
-      [form]="signupForm"
-    />
-    <app-auth-input
-      formControlName="password_confirmation"
-      class="w-full"
-      [isPassword]="true"
-      label="Repeat a password"
-      inputType="password"
-      name="password_confirmation"
-      placeholder="Confirm a password"
-      [form]="signupForm"
+      placeholder="Enter your password"
+      [form]="signinForm"
     />
     <div class="w-full flex gap-4">
       <button
-        mat-flat-button
-        [disabled]="signupForm.invalid"
         ngProjectAs="form-buttons"
+        mat-flat-button
         type="submit"
         class="w-1/4"
-      >
-        Register
-      </button>
-      <button
-        mat-stroked-button
-        routerLink="/signin"
-        ngProjectAs="form-buttons"
-        type="button"
+        [disabled]="signinForm.invalid"
       >
         Sign in
+      </button>
+      <button
+        routerLink="/signup"
+        ngProjectAs="form-buttons"
+        mat-stroked-button
+        type="button"
+      >
+        Register
       </button>
     </div>
   </form>
