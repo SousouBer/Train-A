@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { AuthInputComponent } from '../../auth/ui/auth-input/auth-input.component';
 import { LayoutsAuthFormComponent } from '../../layouts/layouts-auth-form/layouts-auth-form.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -29,6 +29,7 @@ import SigninData from '../../models/models';
 })
 export class SigninComponent {
   private authService = inject(AuthService);
+  private destroyRef = inject(DestroyRef);
 
   signinForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -38,8 +39,12 @@ export class SigninComponent {
   onSubmit() {
     const credentials = this.signinForm.value;
 
-    this.authService.signin(credentials as SigninData).subscribe((val) => {
-      console.log(val);
-    });
+    const subscription = this.authService
+      .signin(credentials as SigninData)
+      .subscribe((val) => {
+        console.log(val);
+      });
+
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 }

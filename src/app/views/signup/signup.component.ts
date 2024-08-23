@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 
 import { AuthInputComponent } from '../../auth/ui/auth-input/auth-input.component';
 import { LayoutsAuthFormComponent } from '../../layouts/layouts-auth-form/layouts-auth-form.component';
@@ -51,6 +51,7 @@ function passwordsMatch(
 export class SignupComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
+  private destroyRef = inject(DestroyRef);
 
   signupForm = new FormGroup(
     {
@@ -72,15 +73,19 @@ export class SignupComponent {
   onSubmit() {
     const credentials = this.signupForm.value;
 
-    this.authService.signup(credentials as SignupData).subscribe(
-      (res) => {
-        this.router.navigate(['/signin']);
-      },
-      (error: HttpErrorResponse) => {
-        if (error.status === 400) {
-          this.signupForm.get('email')?.setErrors({ emailIsTaken: true });
-        }
-      }
-    );
+    const subscription = this.authService
+      .signup(credentials as SignupData)
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/signin']);
+        },
+        error: (error: HttpErrorResponse) => {
+          if (error.status === 400) {
+            this.signupForm.get('email')?.setErrors({ emailIsTaken: true });
+          }
+        },
+      });
+
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 }
