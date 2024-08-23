@@ -1,0 +1,27 @@
+<div
+  class="flex items-center justify-between w-full bg-gray-200 mb-4 px-4 py-4 rounded-lg"
+>
+  <div class="flex justify-center flex-col gap-1">
+    <span class="font-medium">{{ inputTitle() }}</span>
+    @if (!editableField()) {
+
+    <span class="text-blue-600 italic font-semibold">{{ inputValue() }}</span>
+    } @else {
+
+    <input
+      type="text"
+      name="name"
+      class="text-blue-600 italic font-semibold bg-transparent focus:outline-none border-b border-blue-500 px-1 py-0.5"
+    />
+    }
+  </div>
+  @if (!editableField()) {
+
+  <mat-icon (click)="editField()" class="cursor-pointer">edit</mat-icon>
+  } @else {
+  <div class="flex gap-2">
+    <button mat-button (click)="closeEditField()">Cancel</button>
+    <button mat-raised-button>Save</button>
+  </div>
+  }
+</div>

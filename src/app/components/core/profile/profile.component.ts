@@ -2,22 +2,13 @@ import { Component, signal } from '@angular/core';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
+import { ProfileInputComponent } from '../../shared/ui/profile-input/profile-input.component';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [MatButtonModule, MatIcon],
+  imports: [ProfileInputComponent, MatButtonModule, MatIcon],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
 })
-export class ProfileComponent {
-  public editableField = signal<boolean>(false);
-
-  editField(): void {
-    this.editableField.set(true);
-  }
-
-  closeEditField(): void {
-    this.editableField.set(false);
-  }
-}
+export class ProfileComponent {}
