@@ -11,5 +11,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   styleUrl: './layouts-auth-form.component.css',
 })
 export class LayoutsAuthFormComponent {
-  @Input({ required: true }) title: string | null = null;
+  @Input({ required: true }) heading: string | null = null;
+  @Input({ required: true }) description: string | null = null;
 }
