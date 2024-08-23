@@ -1,1 +1,46 @@
-<p>profile works!</p>
+<div class="flex justify-center py-20">
+  <div
+    class="w-1/3 flex flex-col items-center justify-center border px-8 pt-8 border-gray-600 rounded-lg"
+  >
+    <h3 class="">Your Profile Details</h3>
+    <div class="flex flex-col items-start w-full">
+      <button mat-flat-button class="ml-auto my-8">Change your password</button>
+      <div
+        class="flex items-center justify-between w-full bg-gray-200 mb-4 px-4 py-4 rounded-lg"
+      >
+        <div class="flex justify-center flex-col gap-1">
+          <span class="font-medium">Name</span>
+          @if (!editableField()) {
+
+          <span class="text-blue-600 italic font-semibold"
+            >Soso Beriashvili</span
+          >
+          } @else {
+
+          <input
+            type="text"
+            name="name"
+            class="text-blue-600 italic font-semibold bg-transparent focus:outline-none border-b border-blue-500 px-1 py-0.5"
+          />
+          }
+        </div>
+        @if (!editableField()) {
+
+        <mat-icon (click)="editField()" class="cursor-pointer">edit</mat-icon>
+        } @else {
+        <div class="flex gap-2">
+          <button mat-button (click)="closeEditField()">Cancel</button>
+          <button mat-raised-button>Save</button>
+        </div>
+        }
+      </div>
+      <div class="flex items-center justify-between w-full">
+        <div class="flex flex-col gap-1 mb-4">
+          <span>Email</span>
+          <span>sosimail.com</span>
+        </div>
+        <mat-icon>edit</mat-icon>
+      </div>
+    </div>
+  </div>
+</div>

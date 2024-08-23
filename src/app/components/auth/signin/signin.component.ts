@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { AuthInputComponent } from '../../shared/ui/auth-input/auth-input.component';
 import { LayoutsAuthFormComponent } from '../../layouts/layouts-auth-form/layouts-auth-form.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -29,7 +29,7 @@ import { Observable } from 'rxjs';
   templateUrl: './signin.component.html',
   styleUrl: './signin.component.css',
 })
-export class SigninComponent {
+export class SigninComponent implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
   private destroyRef = inject(DestroyRef);
@@ -38,6 +38,17 @@ export class SigninComponent {
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
   });
+
+  ngOnInit() {
+    this.authService.profile().subscribe({
+      next: (val) => {
+        console.log('val', val);
+      },
+      error: (err) => {
+        console.log('error', err);
+      },
+    });
+  }
 
   onSubmit() {
     const credentials = this.signinForm.value;
