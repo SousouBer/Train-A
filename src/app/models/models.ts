@@ -8,3 +8,9 @@ export default interface SigninData {
   email: string;
   password: string;
 }
+
+export default interface User {
+  name: string;
+  email: string;
+  role: 'manager' | 'user';
+}

@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 
 import SignupData from '../models/models';
 import SigninData from '../models/models';
+import User from '../models/models';
 
 @Injectable({
   providedIn: 'root',
@@ -16,5 +17,9 @@ export class AuthService {
 
   signin(credentials: SigninData) {
     return this.http.post<{ token: string }>('/api/signin', credentials);
+  }
+
+  profile() {
+    return this.http.get<User>('/api/profile');
   }
 }
