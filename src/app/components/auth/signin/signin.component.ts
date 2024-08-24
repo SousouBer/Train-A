@@ -12,9 +12,8 @@ import {
 
 import { AuthService } from '../../../services/auth.service';
 
-import SigninData from '../../../models/models';
+import { SigninData } from '../../../models/models';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-signin',

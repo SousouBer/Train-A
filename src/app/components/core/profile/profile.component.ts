@@ -5,7 +5,8 @@ import { MatIcon } from '@angular/material/icon';
 import { ProfileInputComponent } from '../../shared/ui/profile-input/profile-input.component';
 import { Observable } from 'rxjs';
 
-import User from '../../../models/models';
+import { User } from '../../../models/models';
+
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/app.state';
 import { selectProfileDetails } from '../../../store/user/user.selectors';

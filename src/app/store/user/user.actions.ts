@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import User from '../../models/models';
+import { User } from '../../models/models';
 
 export const loadProfile = createAction('[Profile Page] Load User Profile');
 

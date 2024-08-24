@@ -1,10 +1,10 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
-import User from '../../models/models';
+import { User } from '../../models/models';
 import { AppState } from '../app.state';
 
-export const state = (state: AppState) => state.profile;
+export const profileState = (state: AppState) => state.profile;
 
 export const selectProfileDetails = createSelector(
-  state,
+  profileState,
   (state: User) => state
 );

@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
-import SignupData from '../models/models';
-import SigninData from '../models/models';
-import User from '../models/models';
+import { SignupData } from '../models/models';
+import { SigninData } from '../models/models';
+import { User } from '../models/models';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -20,7 +20,7 @@ export class AuthService {
     return this.http.post<{ token: string }>('/api/signin', credentials);
   }
 
-  profile(): Observable<User> {
+  profile() {
     return this.http.get<User>('/api/profile');
   }
 }

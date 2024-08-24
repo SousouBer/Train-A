@@ -1,16 +1,16 @@
-export default interface User {
+export interface User {
   name: string;
   email: string;
   role: 'manager' | 'user';
 }
 
-export default interface SignupData {
+export interface SignupData {
   email: string;
   password: string;
   password_confirmation: string;
 }
 
-export default interface SigninData {
+export interface SigninData {
   email: string;
   password: string;
 }
