@@ -13,7 +13,7 @@ import {
 } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 
-import SignupData from '../../../models/models';
+import { SignupData } from '../../../models/models';
 import { AuthService } from '../../../services/auth.service';
 import {
   HttpErrorResponse,

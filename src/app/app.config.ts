@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, provideZoneChangeDetection, isDevMode } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -6,6 +6,10 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideStore } from '@ngrx/store';
 import { authInterceptor } from './app.interceptor';
+import { provideEffects } from '@ngrx/effects';
+import { profileReducer } from './store/user/user.reducers';
+import { ProfileEffects } from './store/user/user.effects';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,6 +18,10 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideRouter(routes),
     provideHttpClient(withInterceptors([authInterceptor])),
-    provideStore(),
-  ],
+    provideStore({
+        profile: profileReducer,
+    }),
+    provideEffects(ProfileEffects),
+    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() })
+],
 };
