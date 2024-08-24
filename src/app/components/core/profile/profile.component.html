@@ -8,12 +8,12 @@
       <app-profile-input
         class="w-full"
         inputTitle="Name"
-        inputValue="Soso Beriashvili"
+        [inputValue]="(profile$ | async)?.name || 'Add your name here'"
       />
       <app-profile-input
         class="w-full"
         inputTitle="Email"
-        inputValue="soso@mail.com"
+        [inputValue]="(profile$ | async)?.email || ''"
       />
     </div>
   </div>

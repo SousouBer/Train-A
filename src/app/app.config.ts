@@ -7,6 +7,8 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideStore } from '@ngrx/store';
 import { authInterceptor } from './app.interceptor';
 import { provideEffects } from '@ngrx/effects';
+import { profileReducer } from './store/user/user.reducers';
+import { ProfileEffects } from './store/user/user.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,7 +17,9 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideRouter(routes),
     provideHttpClient(withInterceptors([authInterceptor])),
-    provideStore(),
-    provideEffects()
-],
+    provideStore({
+      profile: profileReducer,
+    }),
+    provideEffects(ProfileEffects),
+  ],
 };
