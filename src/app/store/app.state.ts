@@ -1,5 +1,5 @@
-import { User } from '../models/models';
+import { ProfileState } from './user/user.reducers';
 
 export interface AppState {
-  profile: User;
+  profile: ProfileState;
 }

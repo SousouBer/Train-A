@@ -22,7 +22,8 @@ import { AsyncPipe } from '@angular/common';
 })
 export class ProfileComponent implements OnInit {
   private store = inject(Store<AppState>);
-  public profile$: Observable<User> = this.store.select(selectProfileDetails);
+  public profile$: Observable<User | null> =
+    this.store.select(selectProfileDetails);
 
   ngOnInit(): void {
     this.store.dispatch(loadProfile());
