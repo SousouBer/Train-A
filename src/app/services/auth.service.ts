@@ -23,4 +23,8 @@ export class AuthService {
   profile() {
     return this.http.get<User>('/api/profile');
   }
+
+  updateProfile(data: { name?: string; email?: string }) {
+    return this.http.put('/api/profile', data);
+  }
 }

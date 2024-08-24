@@ -7,6 +7,7 @@
     <span class="text-blue-600 italic font-semibold">{{ inputValue() }}</span>
     } @else {
     <input
+      [(ngModel)]="value"
       type="text"
       name="name"
       class="text-blue-600 italic font-semibold bg-transparent focus:outline-none border-b border-blue-500 px-1 py-0.5"
@@ -19,7 +20,7 @@
   } @else {
   <div class="flex gap-2">
     <button mat-button (click)="closeEditField()">Cancel</button>
-    <button mat-raised-button>Save</button>
+    <button mat-raised-button (click)="updateValue()">Save</button>
   </div>
   }
 </div>

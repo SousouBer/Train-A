@@ -11,3 +11,8 @@ export const storeProfile = createAction(
 export const loadProfileFailure = createAction(
   '[Profile API] Load Profile Error'
 );
+
+export const updateProfile = createAction(
+  '[Profile API] Update Profile Name And Email',
+  props<{ data: { name?: string; email?: string } }>()
+);
