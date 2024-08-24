@@ -9,14 +9,24 @@ import { User } from '../../../models/models';
 
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/app.state';
-import { selectProfileDetails } from '../../../store/user/user.selectors';
+import {
+  isLoading,
+  selectProfileDetails,
+} from '../../../store/user/user.selectors';
 import { loadProfile } from '../../../store/user/user.actions';
 import { AsyncPipe } from '@angular/common';
+import { SpinnerComponent } from '../../shared/spinner/spinner.component';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [ProfileInputComponent, MatButtonModule, MatIcon, AsyncPipe],
+  imports: [
+    ProfileInputComponent,
+    MatButtonModule,
+    MatIcon,
+    AsyncPipe,
+    SpinnerComponent,
+  ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
 })
@@ -24,6 +34,7 @@ export class ProfileComponent implements OnInit {
   private store = inject(Store<AppState>);
   public profile$: Observable<User | null> =
     this.store.select(selectProfileDetails);
+  public isLoading$ = this.store.select(isLoading);
 
   ngOnInit(): void {
     this.store.dispatch(loadProfile());
