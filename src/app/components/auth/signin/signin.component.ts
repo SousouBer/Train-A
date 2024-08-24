@@ -49,6 +49,10 @@ export class SigninComponent implements OnInit {
     });
   }
 
+  setControlError(control: string, error: { [value: string]: boolean }) {
+    this.signinForm.get(control)?.setErrors(error);
+  }
+
   onSubmit() {
     const credentials = this.signinForm.value;
 
@@ -63,13 +67,9 @@ export class SigninComponent implements OnInit {
           // this.router.navigate(['/']);
         },
         error: (error: HttpErrorResponse) => {
-          if (error.status === 400 && error.error.reason === 'userNotFound') {
-            this.signinForm
-              .get('email')
-              ?.setErrors({ incorrectCredentials: true });
-            this.signinForm
-              .get('password')
-              ?.setErrors({ incorrectCredentials: true });
+          if (error.status === 400) {
+            this.setControlError('email', { incorrectCredentials: true });
+            this.setControlError('password', { incorrectCredentials: true });
           }
         },
       });
