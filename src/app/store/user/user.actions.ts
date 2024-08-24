@@ -7,3 +7,7 @@ export const storeProfile = createAction(
   '[Profile Page] Store User Profile',
   props<{ profile: User }>()
 );
+
+export const loadProfileFailure = createAction(
+  '[Profile API] Load Profile Error'
+);

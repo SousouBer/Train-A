@@ -10,7 +10,7 @@ import { User } from '../../../models/models';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/app.state';
 import {
-  isLoading,
+  profileStatus,
   selectProfileDetails,
 } from '../../../store/user/user.selectors';
 import { loadProfile } from '../../../store/user/user.actions';
@@ -32,9 +32,8 @@ import { SpinnerComponent } from '../../shared/spinner/spinner.component';
 })
 export class ProfileComponent implements OnInit {
   private store = inject(Store<AppState>);
-  public profile$: Observable<User | null> =
-    this.store.select(selectProfileDetails);
-  public isLoading$ = this.store.select(isLoading);
+  profile$: Observable<User | null> = this.store.select(selectProfileDetails);
+  profileStatus$ = this.store.select(profileStatus);
 
   ngOnInit(): void {
     this.store.dispatch(loadProfile());
