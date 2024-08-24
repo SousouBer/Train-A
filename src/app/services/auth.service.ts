@@ -12,19 +12,19 @@ import { Observable } from 'rxjs';
 export class AuthService {
   private http = inject(HttpClient);
 
-  signup(credentials: SignupData) {
-    return this.http.post('/api/signup', credentials);
+  signup(credentials: SignupData): Observable<User> {
+    return this.http.post<User>('/api/signup', credentials);
   }
 
-  signin(credentials: SigninData) {
+  signin(credentials: SigninData): Observable<{ token: string }> {
     return this.http.post<{ token: string }>('/api/signin', credentials);
   }
 
-  profile() {
+  profile(): Observable<User> {
     return this.http.get<User>('/api/profile');
   }
 
-  updateProfile(data: { name?: string; email?: string }) {
-    return this.http.put('/api/profile', data);
+  updateProfile(data: { name?: string; email?: string }): Observable<User> {
+    return this.http.put<User>('/api/profile', data);
   }
 }
