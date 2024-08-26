@@ -53,6 +53,8 @@ export class SignupComponent {
   private router = inject(Router);
   private destroyRef = inject(DestroyRef);
 
+  isFetching = false;
+
   signupForm = new FormGroup(
     {
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -71,21 +73,24 @@ export class SignupComponent {
   );
 
   onSubmit() {
+    this.isFetching = true;
     const credentials = this.signupForm.value;
 
     const subscription = this.authService
       .signup(credentials as SignupData)
       .subscribe({
-        next: () => {
+        next: (): void => {
+          this.isFetching = false;
           this.router.navigate(['/signin']);
         },
-        error: (error: HttpErrorResponse) => {
+        error: (error: HttpErrorResponse): void => {
           if (error.status === 400) {
             this.signupForm.get('email')?.setErrors({ emailIsTaken: true });
           }
+          this.isFetching = false;
         },
       });
 
-    this.destroyRef.onDestroy(() => subscription.unsubscribe());
+    this.destroyRef.onDestroy((): void => subscription.unsubscribe());
   }
 }

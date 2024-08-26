@@ -31,7 +31,7 @@
         mat-flat-button
         type="submit"
         class="w-1/4"
-        [disabled]="signinForm.invalid"
+        [disabled]="signinForm.invalid || isFetching"
       >
         Sign in
       </button>
