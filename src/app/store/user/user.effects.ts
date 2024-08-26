@@ -5,9 +5,19 @@ import {
   loadProfile,
   loadProfileFailure,
   storeProfile,
+  updatePassword,
   updateProfile,
 } from './user.actions';
-import { catchError, EMPTY, exhaust, exhaustMap, map, of, tap } from 'rxjs';
+import {
+  catchError,
+  concatMap,
+  EMPTY,
+  exhaust,
+  exhaustMap,
+  map,
+  of,
+  tap,
+} from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../app.state';
 
@@ -29,14 +39,28 @@ export class ProfileEffects {
     )
   );
 
-  updateProfile = createEffect(() =>
+  updateProfile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(updateProfile),
       exhaustMap((action) =>
-        this.authService
-          .updateProfile(action.data)
-          .pipe(map(() => loadProfile()))
+        this.authService.updateProfile(action.data).pipe(
+          map(() => loadProfile()),
+          catchError(() => EMPTY)
+        )
       )
     )
+  );
+
+  updatePassword$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(updatePassword),
+        concatMap((action) =>
+          this.authService
+            .changePassword(action.password)
+            .pipe(catchError(() => EMPTY))
+        )
+      ),
+    { dispatch: false }
   );
 }

@@ -3,7 +3,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { ProfileInputComponent } from '../../shared/ui/profile-input/profile-input.component';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 
 import { User } from '../../../models/models';
 
@@ -13,9 +13,11 @@ import {
   profileStatus,
   selectProfileDetails,
 } from '../../../store/user/user.selectors';
-import { loadProfile } from '../../../store/user/user.actions';
+import { loadProfile, updatePassword } from '../../../store/user/user.actions';
 import { AsyncPipe } from '@angular/common';
 import { SpinnerComponent } from '../../shared/spinner/spinner.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ChangePasswordComponent } from '../change-password/change-password.component';
 
 @Component({
   selector: 'app-profile',
@@ -32,10 +34,28 @@ import { SpinnerComponent } from '../../shared/spinner/spinner.component';
 })
 export class ProfileComponent implements OnInit {
   private store = inject(Store<AppState>);
+  dialog = inject(MatDialog);
+
   profile$: Observable<User | null> = this.store.select(selectProfileDetails);
   profileStatus$ = this.store.select(profileStatus);
 
   ngOnInit(): void {
     this.store.dispatch(loadProfile());
+  }
+
+  onOpenPasswordDialog(): void {
+    const dialogRef = this.dialog.open(ChangePasswordComponent, {
+      height: 'auto',
+      width: '50%',
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((password: string) => {
+        if (password) {
+          this.store.dispatch(updatePassword({ password }));
+        }
+      });
   }
 }
