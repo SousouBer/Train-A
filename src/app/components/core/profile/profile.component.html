@@ -5,7 +5,13 @@
     <h3 class="text-gray-600">Your Profile Details</h3>
     @if ((profileStatus$ | async) === 'success') {
     <div class="flex flex-col items-start w-full">
-      <button mat-flat-button class="ml-auto my-8">Change your password</button>
+      <button
+        mat-flat-button
+        class="ml-auto my-8"
+        (click)="onOpenPasswordDialog()"
+      >
+        Change your password
+      </button>
       <app-profile-input
         class="w-full"
         inputTitle="Name"
