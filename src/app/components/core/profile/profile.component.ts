@@ -13,7 +13,7 @@ import {
   profileStatus,
   selectProfileDetails,
 } from '../../../store/user/user.selectors';
-import { loadProfile } from '../../../store/user/user.actions';
+import { loadProfile, updatePassword } from '../../../store/user/user.actions';
 import { AsyncPipe } from '@angular/common';
 import { SpinnerComponent } from '../../shared/spinner/spinner.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -52,9 +52,10 @@ export class ProfileComponent implements OnInit {
     dialogRef
       .afterClosed()
       .pipe(take(1))
-      .subscribe((password) => {
+      .subscribe((password: string) => {
         if (password) {
-          console.log('Password:', password);
+          // console.log('Password:', password);
+          this.store.dispatch(updatePassword({ password }));
         }
       });
   }

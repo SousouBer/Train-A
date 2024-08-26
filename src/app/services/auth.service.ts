@@ -29,9 +29,8 @@ export class AuthService {
   }
 
   changePassword(password: string): Observable<{ password: string }> {
-    return this.http.put<{ password: string }>(
-      '/api/profile/password',
-      password
-    );
+    return this.http.put<{ password: string }>('/api/profile/password', {
+      password,
+    });
   }
 }
