@@ -54,7 +54,6 @@ export class ProfileComponent implements OnInit {
       .pipe(take(1))
       .subscribe((password: string) => {
         if (password) {
-          // console.log('Password:', password);
           this.store.dispatch(updatePassword({ password }));
         }
       });
