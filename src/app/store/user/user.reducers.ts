@@ -1,6 +1,11 @@
 import { createReducer, on } from '@ngrx/store';
 
-import { loadProfile, loadProfileFailure, storeProfile } from './user.actions';
+import {
+  loadProfile,
+  loadProfileFailure,
+  storeProfile,
+  updatePassword,
+} from './user.actions';
 import { User } from '../../models/models';
 import { Status } from '../app.state';
 

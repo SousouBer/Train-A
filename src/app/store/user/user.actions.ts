@@ -16,3 +16,8 @@ export const updateProfile = createAction(
   '[Profile API] Update Profile Name And Email',
   props<{ data: { name?: string; email?: string } }>()
 );
+
+export const updatePassword = createAction(
+  '[Profile API] Update Password',
+  props<{ password: string }>()
+);

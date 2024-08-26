@@ -27,4 +27,11 @@ export class AuthService {
   updateProfile(data: { name?: string; email?: string }): Observable<User> {
     return this.http.put<User>('/api/profile', data);
   }
+
+  changePassword(password: string): Observable<{ password: string }> {
+    return this.http.put<{ password: string }>(
+      '/api/profile/password',
+      password
+    );
+  }
 }
