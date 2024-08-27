@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { ProfileInputComponent } from '../../shared/ui/profile-input/profile-input.component';
 import { Observable, take } from 'rxjs';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { User } from '../../../models/models';
 
@@ -15,7 +16,6 @@ import {
 } from '../../../store/user/user.selectors';
 import { loadProfile, updatePassword } from '../../../store/user/user.actions';
 import { AsyncPipe } from '@angular/common';
-import { SpinnerComponent } from '../../shared/spinner/spinner.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ChangePasswordComponent } from '../change-password/change-password.component';
 
@@ -27,7 +27,7 @@ import { ChangePasswordComponent } from '../change-password/change-password.comp
     MatButtonModule,
     MatIcon,
     AsyncPipe,
-    SpinnerComponent,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',

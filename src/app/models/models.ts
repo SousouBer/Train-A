@@ -14,3 +14,19 @@ export interface SigninData {
   email: string;
   password: string;
 }
+
+export interface CityData {
+  city: string;
+  geometry: {
+    lat: number;
+    lng: number;
+  };
+}
+
+export interface CityCoordinates {
+  fromLatitude: number;
+  fromLongitude: number;
+  toLatitude: number;
+  toLongitude: number;
+  date?: string;
+}

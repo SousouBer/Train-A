@@ -33,6 +33,8 @@ export class SigninComponent implements OnInit {
   private router = inject(Router);
   private destroyRef = inject(DestroyRef);
 
+  isFetching = false;
+
   signinForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
@@ -54,26 +56,30 @@ export class SigninComponent implements OnInit {
   }
 
   onSubmit() {
+    this.isFetching = true;
     const credentials = this.signinForm.value;
 
     const subscription = this.authService
       .signin(credentials as SigninData)
       .subscribe({
-        next: (res) => {
+        next: (res): void => {
           const token = res.token;
           window.localStorage.setItem('token', token);
 
           this.signinForm.reset();
           // this.router.navigate(['/']);
+
+          this.isFetching = false;
         },
-        error: (error: HttpErrorResponse) => {
+        error: (error: HttpErrorResponse): void => {
           if (error.status === 400) {
             this.setControlError('email', { incorrectCredentials: true });
             this.setControlError('password', { incorrectCredentials: true });
           }
+          this.isFetching = false;
         },
       });
 
-    this.destroyRef.onDestroy(() => subscription.unsubscribe());
+    this.destroyRef.onDestroy((): void => subscription.unsubscribe());
   }
 }

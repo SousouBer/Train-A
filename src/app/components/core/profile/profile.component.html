@@ -24,9 +24,7 @@
       />
     </div>
     } @else if((profileStatus$ | async) === 'loading') {
-    <div class="flex items-center justify-center w-full">
-      <app-spinner />
-    </div>
+    <mat-spinner />
     } @else if ((profileStatus$ | async) === 'error') {
     <span class="text-2xl text-red-600">An error occured. Try again.</span>
     }

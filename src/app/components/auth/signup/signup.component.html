@@ -39,7 +39,7 @@
     <div class="w-full flex gap-4">
       <button
         mat-flat-button
-        [disabled]="signupForm.invalid"
+        [disabled]="signupForm.invalid || isFetching"
         ngProjectAs="form-buttons"
         type="submit"
         class="w-1/4"
