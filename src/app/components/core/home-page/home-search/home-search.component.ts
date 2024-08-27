@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
@@ -8,14 +8,19 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { CitiesService } from '../../../../services/cities.service';
 import {
-  AbstractControl,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { debounceTime, Observable, switchMap, tap } from 'rxjs';
+import { debounceTime, switchMap } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
+
+import { CityData } from '../../../../models/models';
+import {
+  Form,
+  TrainTripService,
+} from '../../../../services/train-trip.service';
 
 @Component({
   selector: 'app-home-search',
@@ -36,9 +41,11 @@ import { AsyncPipe } from '@angular/common';
 })
 export class HomeSearchComponent implements OnInit {
   private citiesService = inject(CitiesService);
+  private tripsService = inject(TrainTripService);
+  private destroyRef = inject(DestroyRef);
 
-  public fromCities$: Observable<string[]> | undefined;
-  public toCities$: Observable<string[]> | undefined;
+  fromCities = signal<CityData[]>([]);
+  toCities = signal<CityData[]>([]);
 
   searchForm = new FormGroup({
     from: new FormControl('', [Validators.required, Validators.minLength(3)]),
@@ -55,30 +62,58 @@ export class HomeSearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fromCities$ = this.fromCityControl?.valueChanges.pipe(
-      debounceTime(500),
-      switchMap((value) => {
-        if (this.fromCityControl?.valid) {
-          return this.citiesService.searchCity(value as string);
-        } else {
-          return [];
-        }
-      })
-    );
+    const subscription2 = this.fromCityControl?.valueChanges
+      .pipe(
+        debounceTime(500),
+        switchMap((value) => {
+          if (this.fromCityControl?.valid) {
+            return this.citiesService.searchCity(value as string);
+          } else {
+            return [];
+          }
+        })
+      )
+      .subscribe({
+        next: (data) => this.fromCities.set(data),
+      });
 
-    this.toCities$ = this.toCityControl?.valueChanges.pipe(
-      debounceTime(500),
-      switchMap((value) => {
-        if (this.toCityControl?.valid) {
-          return this.citiesService.searchCity(value as string);
-        } else {
-          return [];
-        }
-      })
-    );
+    const subscription1 = this.toCityControl?.valueChanges
+      .pipe(
+        debounceTime(500),
+        switchMap((value) => {
+          if (this.toCityControl?.valid) {
+            return this.citiesService.searchCity(value as string);
+          } else {
+            return [];
+          }
+        })
+      )
+      .subscribe({
+        next: (data) => this.toCities.set(data),
+      });
+
+    this.destroyRef.onDestroy(() => {
+      subscription1?.unsubscribe();
+      subscription2?.unsubscribe();
+    });
+  }
+
+  displayCity(option: CityData): string {
+    return option ? option.city : '';
   }
 
   onSubmit(): void {
-    console.log(this.searchForm.value);
+    let selectedFromCity = this.fromCities().find(
+      (city) => city.city === this.fromCityControl?.value
+    );
+    let selectedToCity = this.toCities().find(
+      (city) => city.city === this.toCityControl?.value
+    );
+
+    this.tripsService
+      .tripDetails(selectedFromCity as CityData, selectedToCity as CityData)
+      .subscribe({
+        next: (data) => console.log(data),
+      });
   }
 }

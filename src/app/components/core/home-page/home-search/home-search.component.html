@@ -19,8 +19,8 @@
         />
         <mat-icon matPrefix>radio_button_unchecked</mat-icon>
         <mat-autocomplete autoActiveFirstOption #autoFrom="matAutocomplete">
-          @for (option of fromCities$ | async; track option) {
-          <mat-option [value]="option">{{ option }}</mat-option>
+          @for (option of fromCities(); track option.city) {
+          <mat-option [value]="option.city">{{ option.city }}</mat-option>
           }
         </mat-autocomplete>
       </mat-form-field>
@@ -34,8 +34,8 @@
         />
         <mat-icon matPrefix>radio_button_checked</mat-icon>
         <mat-autocomplete autoActiveFirstOption #autoTo="matAutocomplete">
-          @for (option of toCities$ | async; track option) {
-          <mat-option [value]="option">{{ option }}</mat-option>
+          @for (option of toCities(); track option.city) {
+          <mat-option [value]="option.city">{{ option.city }}</mat-option>
           }
         </mat-autocomplete>
       </mat-form-field>
@@ -49,6 +49,6 @@
       ></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
-    <button mat-flat-button [disabled]="searchForm.invalid">Search</button>
+    <button mat-flat-button>Search</button>
   </form>
 </div>

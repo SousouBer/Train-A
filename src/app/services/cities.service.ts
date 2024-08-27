@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { BehaviorSubject, map } from 'rxjs';
+import { map } from 'rxjs';
+
+import { CityData } from '../models/models';
 
 @Injectable({
   providedIn: 'root',
@@ -23,17 +25,23 @@ export class CitiesService {
     return this.http.get(this.apiUrl, { params }).pipe(
       map((res: any) => {
         const resData = res.results;
-        const cityNames: string[] = [];
+        const citiesData: CityData[] = [];
 
-        const cityData = resData.filter(
+        const fetchedCities = resData.filter(
           (result: any) => result.components._type === 'city'
         );
 
-        for (let city of cityData) {
-          cityNames.push(city.formatted);
+        for (let city of fetchedCities) {
+          const cityData: CityData = {
+            city: city.formatted,
+            geometry: city.geometry,
+          };
+          citiesData.push(cityData);
+          // console.log(city);
         }
+        // console.log(cityNames);
 
-        return cityNames;
+        return citiesData;
       })
     );
   }
