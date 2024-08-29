@@ -13,9 +13,5 @@ import { map } from 'rxjs';
 export class HomePageComponent implements OnInit {
   private citiesService = inject(CitiesService);
 
-  ngOnInit(): void {
-    this.citiesService.searchCity('paris').subscribe({
-      next: (data) => console.log('data', data),
-    });
-  }
+  ngOnInit(): void {}
 }

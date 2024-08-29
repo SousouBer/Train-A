@@ -18,9 +18,13 @@
           [matAutocomplete]="autoFrom"
         />
         <mat-icon matPrefix>radio_button_unchecked</mat-icon>
-        <mat-autocomplete autoActiveFirstOption #autoFrom="matAutocomplete">
-          @for (option of fromCities(); track option.city) {
-          <mat-option [value]="option.city">{{ option.city }}</mat-option>
+        <mat-autocomplete
+          autoActiveFirstOption
+          #autoFrom="matAutocomplete"
+          [displayWith]="displayCity"
+        >
+          @for (option of cities(); track option.id) {
+          <mat-option [value]="option.id">{{ option.city }}</mat-option>
           }
         </mat-autocomplete>
       </mat-form-field>
@@ -33,9 +37,13 @@
           [matAutocomplete]="autoTo"
         />
         <mat-icon matPrefix>radio_button_checked</mat-icon>
-        <mat-autocomplete autoActiveFirstOption #autoTo="matAutocomplete">
-          @for (option of toCities(); track option.city) {
-          <mat-option [value]="option.city">{{ option.city }}</mat-option>
+        <mat-autocomplete
+          autoActiveFirstOption
+          #autoTo="matAutocomplete"
+          [displayWith]="displayCity"
+        >
+          @for (option of cities(); track option.id) {
+          <mat-option [value]="option.id">{{ option.city }}</mat-option>
           }
         </mat-autocomplete>
       </mat-form-field>
