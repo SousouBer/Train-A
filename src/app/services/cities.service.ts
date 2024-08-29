@@ -12,37 +12,8 @@ export class CitiesService {
   private http = inject(HttpClient);
 
   private apiUrl = environment.apiUrl;
-  private apiKey = environment.apiKey;
 
-  searchCity(searchValue: string) {
-    const params = {
-      key: this.apiKey,
-      q: searchValue,
-      type: 'city',
-      limit: '5',
-    };
-
-    return this.http.get(this.apiUrl, { params }).pipe(
-      map((res: any) => {
-        const resData = res.results;
-        const citiesData: CityData[] = [];
-
-        const fetchedCities = resData.filter(
-          (result: any) => result.components._type === 'city'
-        );
-
-        for (let city of fetchedCities) {
-          const cityData: CityData = {
-            city: city.formatted,
-            geometry: city.geometry,
-          };
-          citiesData.push(cityData);
-          // console.log(city);
-        }
-        // console.log(cityNames);
-
-        return citiesData;
-      })
-    );
+  getCities() {
+    return this.http.get<CityData[]>(this.apiUrl);
   }
 }

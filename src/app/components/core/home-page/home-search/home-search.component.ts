@@ -1,4 +1,11 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  OnInit,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
@@ -13,7 +20,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { debounceTime, switchMap } from 'rxjs';
+import { debounceTime, map, Observable, switchMap, take } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 
 import { CityData } from '../../../../models/models';
@@ -44,12 +51,11 @@ export class HomeSearchComponent implements OnInit {
   private tripsService = inject(TrainTripService);
   private destroyRef = inject(DestroyRef);
 
-  fromCities = signal<CityData[]>([]);
-  toCities = signal<CityData[]>([]);
+  public cities: WritableSignal<CityData[]> = signal<CityData[]>([]);
 
   searchForm = new FormGroup({
-    from: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    to: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    from: new FormControl(0, [Validators.required, Validators.minLength(3)]),
+    to: new FormControl(0, [Validators.required, Validators.minLength(3)]),
     date: new FormControl('', [Validators.required]),
   });
 
@@ -61,59 +67,38 @@ export class HomeSearchComponent implements OnInit {
     return this.searchForm.get('to');
   }
 
+  get dateControl() {
+    return this.searchForm.get('date');
+  }
+
   ngOnInit(): void {
-    const subscription2 = this.fromCityControl?.valueChanges
-      .pipe(
-        debounceTime(500),
-        switchMap((value) => {
-          if (this.fromCityControl?.valid) {
-            return this.citiesService.searchCity(value as string);
-          } else {
-            return [];
-          }
-        })
-      )
-      .subscribe({
-        next: (data) => this.fromCities.set(data),
-      });
-
-    const subscription1 = this.toCityControl?.valueChanges
-      .pipe(
-        debounceTime(500),
-        switchMap((value) => {
-          if (this.toCityControl?.valid) {
-            return this.citiesService.searchCity(value as string);
-          } else {
-            return [];
-          }
-        })
-      )
-      .subscribe({
-        next: (data) => this.toCities.set(data),
-      });
-
-    this.destroyRef.onDestroy(() => {
-      subscription1?.unsubscribe();
-      subscription2?.unsubscribe();
+    const subscription = this.citiesService.getCities().subscribe({
+      next: (data: CityData[]) => this.cities.set(data),
     });
+
+    this.destroyRef.onDestroy((): void => subscription.unsubscribe());
   }
 
-  displayCity(option: CityData): string {
-    return option ? option.city : '';
-  }
+  displayCity = (id: number): string => {
+    const selectedCity = this.cities()?.find((c) => c.id === id);
+
+    return selectedCity?.city as string;
+  };
 
   onSubmit(): void {
-    let selectedFromCity = this.fromCities().find(
-      (city) => city.city === this.fromCityControl?.value
-    );
-    let selectedToCity = this.toCities().find(
-      (city) => city.city === this.toCityControl?.value
-    );
+    const fromCityId = this.fromCityControl?.value;
+    const toCityId = this.toCityControl?.value;
+    const date = this.dateControl?.value;
 
-    this.tripsService
-      .tripDetails(selectedFromCity as CityData, selectedToCity as CityData)
+    const fromCity = this.cities().find((city) => city.id === fromCityId);
+    const toCity = this.cities().find((city) => city.id === toCityId);
+
+    const subscription = this.tripsService
+      .tripDetails(fromCity as CityData, toCity as CityData, Number(date))
       .subscribe({
         next: (data) => console.log(data),
       });
+
+    this.destroyRef.onDestroy((): void => subscription.unsubscribe());
   }
 }

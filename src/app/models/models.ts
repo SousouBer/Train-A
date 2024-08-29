@@ -16,11 +16,11 @@ export interface SigninData {
 }
 
 export interface CityData {
+  id: number;
   city: string;
-  geometry: {
-    lat: number;
-    lng: number;
-  };
+  latitude: number;
+  longitude: number;
+  connectedTo: { id: number; distance: number }[];
 }
 
 export interface CityCoordinates {
