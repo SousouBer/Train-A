@@ -1,7 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { CityData } from '../models/models';
-import { CityCoordinates } from '../models/models';
 
 export interface Form {
   from: CityData;
@@ -14,21 +13,23 @@ export interface Form {
 export class TrainTripService {
   private http = inject(HttpClient);
 
-  tripDetails(fromCity: CityData, toCity: CityData, date: string = '') {
-    // const formValues: CityCoordinates = {
-    //   fromLatitude: fromCity?.geometry.lat,
-    //   fromLongitude: fromCity?.geometry.lng,
-    //   toLatitude: toCity?.geometry.lat,
-    //   toLongitude: toCity?.geometry.lng,
-    // };
-    // const params = new HttpParams()
-    //   .set('Attributes', formValues.fromLatitude)
-    //   .set('fromLongitude', formValues.fromLongitude)
-    //   .set('toLatitude', formValues.toLatitude)
-    //   .set('toLongitude', formValues.toLongitude);
-    // if (formValues.date) {
-    //   params.set('date', formValues.date);
-    // }
-    // return this.http.get('/api/search', { params });
+  tripDetails(
+    fromCity: CityData,
+    toCity: CityData,
+    date: string | number = ''
+  ) {
+    const params = new HttpParams()
+      .set('fromLatitude', fromCity?.latitude)
+      .set('fromLongitude', fromCity?.longitude)
+      .set('toLatitude', toCity?.latitude)
+      .set('toLongitude', toCity?.longitude);
+
+    if (date) {
+      const unixDate = Math.floor(+date / 1000);
+
+      params.set('date', unixDate);
+    }
+
+    return this.http.get('/api/search', { params });
   }
 }

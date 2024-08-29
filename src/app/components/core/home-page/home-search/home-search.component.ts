@@ -54,8 +54,8 @@ export class HomeSearchComponent implements OnInit {
   public cities: WritableSignal<CityData[]> = signal<CityData[]>([]);
 
   searchForm = new FormGroup({
-    from: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    to: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    from: new FormControl(0, [Validators.required, Validators.minLength(3)]),
+    to: new FormControl(0, [Validators.required, Validators.minLength(3)]),
     date: new FormControl('', [Validators.required]),
   });
 
@@ -65,6 +65,10 @@ export class HomeSearchComponent implements OnInit {
 
   get toCityControl() {
     return this.searchForm.get('to');
+  }
+
+  get dateControl() {
+    return this.searchForm.get('date');
   }
 
   ngOnInit(): void {
@@ -82,6 +86,19 @@ export class HomeSearchComponent implements OnInit {
   };
 
   onSubmit(): void {
-    console.log(this.searchForm.value);
+    const fromCityId = this.fromCityControl?.value;
+    const toCityId = this.toCityControl?.value;
+    const date = this.dateControl?.value;
+
+    const fromCity = this.cities().find((city) => city.id === fromCityId);
+    const toCity = this.cities().find((city) => city.id === toCityId);
+
+    const subscription = this.tripsService
+      .tripDetails(fromCity as CityData, toCity as CityData, Number(date))
+      .subscribe({
+        next: (data) => console.log(data),
+      });
+
+    this.destroyRef.onDestroy((): void => subscription.unsubscribe());
   }
 }
