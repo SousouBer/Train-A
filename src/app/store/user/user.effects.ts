@@ -12,7 +12,6 @@ import {
   catchError,
   concatMap,
   EMPTY,
-  exhaust,
   exhaustMap,
   map,
   of,
@@ -25,7 +24,6 @@ import { AppState } from '../app.state';
 export class ProfileEffects {
   private actions$ = inject(Actions);
   private authService = inject(AuthService);
-  private store = inject(Store<AppState>);
 
   loadProfile$ = createEffect(() =>
     this.actions$.pipe(

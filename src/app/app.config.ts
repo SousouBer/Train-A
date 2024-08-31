@@ -15,6 +15,7 @@ import { profileReducer } from './store/user/user.reducers';
 import { ProfileEffects } from './store/user/user.effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { tripsReducer } from './store/trip/trips.reducers';
+import { TripsEffects } from './store/trip/trips.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -27,7 +28,7 @@ export const appConfig: ApplicationConfig = {
       profile: profileReducer,
       trips: tripsReducer,
     }),
-    provideEffects(ProfileEffects),
+    provideEffects(ProfileEffects, TripsEffects),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
   ],
 };

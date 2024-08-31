@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
+
 import { Station } from '../../models/station.interface';
 import { Status } from '../app.state';
-import { selectProfileDetails } from '../user/user.selectors';
 import { TripsActions } from './trips.acions';
 
 export interface TripsState {
@@ -10,7 +10,7 @@ export interface TripsState {
   error: string | null;
 }
 
-const initialState: TripsState = {
+export const initialState: TripsState = {
   trips: [],
   status: Status.Pending,
   error: null,
