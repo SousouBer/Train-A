@@ -1,3 +1,4 @@
+import { TripsState } from './trip/trips.reducers';
 import { ProfileState } from './user/user.reducers';
 
 export enum Status {
@@ -9,4 +10,5 @@ export enum Status {
 
 export interface AppState {
   profile: ProfileState;
+  trips: TripsState;
 }
