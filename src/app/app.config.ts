@@ -1,4 +1,8 @@
-import { ApplicationConfig, provideZoneChangeDetection, isDevMode } from '@angular/core';
+import {
+  ApplicationConfig,
+  provideZoneChangeDetection,
+  isDevMode,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -10,6 +14,8 @@ import { provideEffects } from '@ngrx/effects';
 import { profileReducer } from './store/user/user.reducers';
 import { ProfileEffects } from './store/user/user.effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { tripsReducer } from './store/trip/trips.reducers';
+import { TripsEffects } from './store/trip/trips.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,9 +25,10 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([authInterceptor])),
     provideStore({
-        profile: profileReducer,
+      profile: profileReducer,
+      trips: tripsReducer,
     }),
-    provideEffects(ProfileEffects),
-    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() })
-],
+    provideEffects(ProfileEffects, TripsEffects),
+    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
+  ],
 };

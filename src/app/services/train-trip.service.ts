@@ -1,6 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { CityData } from '../models/models';
+import { Station } from '../models/station.interface';
+import { Observable } from 'rxjs';
 
 export interface Form {
   from: CityData;
@@ -17,7 +19,7 @@ export class TrainTripService {
     fromCity: CityData,
     toCity: CityData,
     date: string | number = ''
-  ) {
+  ): Observable<Station[]> {
     const params = new HttpParams()
       .set('fromLatitude', fromCity?.latitude)
       .set('fromLongitude', fromCity?.longitude)
@@ -30,6 +32,6 @@ export class TrainTripService {
       params.set('date', unixDate);
     }
 
-    return this.http.get('/api/search', { params });
+    return this.http.get<Station[]>('/api/search', { params });
   }
 }

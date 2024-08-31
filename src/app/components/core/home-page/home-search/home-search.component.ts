@@ -28,6 +28,9 @@ import {
   Form,
   TrainTripService,
 } from '../../../../services/train-trip.service';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../../store/app.state';
+import { TripsActions } from '../../../../store/trip/trips.acions';
 
 @Component({
   selector: 'app-home-search',
@@ -47,9 +50,9 @@ import {
   providers: [MatDatepickerModule],
 })
 export class HomeSearchComponent implements OnInit {
-  private citiesService = inject(CitiesService);
-  private tripsService = inject(TrainTripService);
+  private store = inject(Store<AppState>);
   private destroyRef = inject(DestroyRef);
+  private citiesService = inject(CitiesService);
 
   public cities: WritableSignal<CityData[]> = signal<CityData[]>([]);
 
@@ -88,17 +91,23 @@ export class HomeSearchComponent implements OnInit {
   onSubmit(): void {
     const fromCityId = this.fromCityControl?.value;
     const toCityId = this.toCityControl?.value;
-    const date = this.dateControl?.value;
+    const date = this.dateControl?.value as string;
 
-    const fromCity = this.cities().find((city) => city.id === fromCityId);
-    const toCity = this.cities().find((city) => city.id === toCityId);
+    const fromCity = this.cities().find(
+      (city) => city.id === fromCityId
+    ) as CityData;
+    const toCity = this.cities().find(
+      (city) => city.id === toCityId
+    ) as CityData;
 
-    const subscription = this.tripsService
-      .tripDetails(fromCity as CityData, toCity as CityData, Number(date))
-      .subscribe({
-        next: (data) => console.log(data),
-      });
+    this.store.dispatch(TripsActions.getTrips({ fromCity, toCity, date }));
 
-    this.destroyRef.onDestroy((): void => subscription.unsubscribe());
+    // const subscription = this.tripsService
+    //   .tripDetails(fromCity as CityData, toCity as CityData, Number(date))
+    //   .subscribe({
+    //     next: (data) => console.log(data),
+    //   });
+
+    // this.destroyRef.onDestroy((): void => subscription.unsubscribe());
   }
 }
